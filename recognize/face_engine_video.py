@@ -3,36 +3,41 @@ import os
 import cv2
 import face_recognition
 
+# Import your video file
 video_file = cv2.VideoCapture(os.path.abspath("recognize/videos/cod_trailer_1.mp4"))
+
+# Capture the lenght based on the frame.
 length = int(video_file.get(cv2.CAP_PROP_FRAME_COUNT))
-print (length)
-# We need to find the name of the known faces
+
+# We need to add all the faces that we want our code to recognize
 image_alex_1 = face_recognition.load_image_file(os.path.abspath("recognize/images/alex1.png"))
 image_badguy_1 = face_recognition.load_image_file(os.path.abspath("recognize/images/badguy1.png"))
 image_farah_1 = face_recognition.load_image_file(os.path.abspath("recognize/images/farah1.png"))
 image_laswell_1 = face_recognition.load_image_file(os.path.abspath("recognize/images/laswell1.png"))
 image_price_1 = face_recognition.load_image_file(os.path.abspath("recognize/images/price1.png"))
 
+# Generate the face encoding for the image that has been passed.
 alex_face_1 = face_recognition.face_encodings(image_alex_1)[0]
 badguy_face_1 = face_recognition.face_encodings(image_badguy_1)[0]
 farah_face_1 = face_recognition.face_encodings(image_farah_1)[0]
 laswell_face_1 = face_recognition.face_encodings(image_laswell_1)[0]
 price_face_1 = face_recognition.face_encodings(image_price_1)[0]
 
+# Make a list of all the known faces that we want to be recognized based on the 
+# encoding.
 known_faces = [
 alex_face_1, badguy_face_1, farah_face_1, laswell_face_1, price_face_1
 ]
-
-import sys;sys.exit
 
 facial_points = []
 face_encodings = []
 facial_number = 0
 
 while True:
-    ret, frame = video_file.read()
+    return_value, frame = video_file.read()
     facial_number = facial_number + 1
-    if not ret:
+    
+    if not return_value:
         break
 
     rgb_frame = frame[:, :, ::-1]
